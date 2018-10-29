@@ -1,0 +1,94 @@
+<template>
+    <view class="container">
+        <view class="title">
+            我的TODOS
+        </view>
+        <view class="line"></view>
+        <view class="contnet">
+            <label>我要做的事：</label>
+            <input pleaceholder="请输入" @blur="changeText" value="{{todoText}}" class="text-area" type="text" />
+            <icon @tap="clearForm" class="clear" type="clear"></icon>
+            <icon @tap="addItem" type="success_no_circle"></icon>
+        </view>
+        <view class="todolist">
+            <ul>
+                <li wx:for="{{todos}}" data-index='{{index}}' wx:key="{{index}}">{{item.title}}-------<icon type="success_no_circle"></icon></li>
+            </ul>
+        </view>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+export default class Index extends wepy.page {
+  data = {
+    todoText: '',
+    todos: [
+      { title: '读书' },
+      { title: '看报' },
+      { title: '编程' },
+      { title: '睡觉' }
+    ]
+  };
+  methods = {
+    clearForm: function() {
+    //   this.todoText = '';
+    },
+    changeText: function(e) {
+      let val = e.detail.value;
+      console.log(val);
+      this.setData({
+        todoText: val
+      });
+      console.log(this.$data.todoText);
+    },
+    addItem: function(e) {
+        // console.log(e.detail.todoText);
+        console.log(this.$data.todoText);
+        this.$data.todos.push({
+          title: this.$data.todoText
+        });
+    },
+    delItem: function() {}
+  };
+}
+</script>
+
+<style lang="less">
+.container {
+  .title {
+    text-align: center;
+  }
+
+  .line {
+    display: block;
+    width: 100vw;
+    height: 6rpx;
+    background-color: #ccc;
+    margin-bottom: 60rpx;
+  }
+
+  .contnet {
+    position: relative;
+    font-size: 30rpx;
+
+    .text-area {
+      border: 1px solid #ccc;
+      padding-left: 10px;
+    }
+
+    .clear {
+      position: absolute;
+      top: 45rpx;
+      right: -45rpx;
+    }
+  }
+  .todolist {
+    ul {
+      li {
+        display: block;
+      }
+    }
+  }
+}
+</style>
